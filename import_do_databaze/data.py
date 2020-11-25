@@ -45,9 +45,10 @@ class databaze:
         con=sql.connect(nazev_databaze)
 
         id=1
-        with open(cesta, 'r') as radky:
-            for radky in radky.read().splitlines():
-                CB, Y, X, Z, kod = radky.split(' ')
+        print(cesta)
+        with open(cesta, 'r') as f:
+            for radek in f.read().splitlines():
+                CB, Y, X, Z, kod = radek.split(' ')
 
                 query='INSERT INTO gps_sour VALUES({}, " {} ", {}, {}, {}, " {} ")'.format(id, CB, Y, X, Z, kod)
                 con.execute(query)

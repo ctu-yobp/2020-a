@@ -3,8 +3,8 @@ import os
 
 
 nazev_projektu='projekt'
-cesta_sour= os.path.join(os.path.dirname(__file__) + '/PESL1120.txt'
-cesta_mereni= os.path.join(os.path.dirname(__file__) + '/pesl1120.sdr'
+cesta_sour= os.path.join(os.path.dirname(__file__)) + '\..\data\PESL1120.txt'
+cesta_mereni= os.path.join(os.path.dirname(__file__))+ '\..\data\pesl1120.sdr'
 
 projekt=databaze.vytvoreni(nazev_projektu)
 
