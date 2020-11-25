@@ -1,9 +1,10 @@
 from data import databaze
+import os
 
 
 nazev_projektu='projekt'
-cesta_sour='c:/Users/Jakub/Desktop/skola/magister/obp_projekt/PESL1120.txt'
-cesta_mereni='c:/Users/Jakub/Desktop/skola/magister/obp_projekt/pesl1120.sdr'
+cesta_sour= os.path.join(os.path.dirname(__file__) + '/PESL1120.txt'
+cesta_mereni= os.path.join(os.path.dirname(__file__) + '/pesl1120.sdr'
 
 projekt=databaze.vytvoreni(nazev_projektu)
 
