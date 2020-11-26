@@ -1,21 +1,23 @@
-from data import databaze
+# systemove knihovny
 import os
 
+# vlastni knihovny
+from data import Databaze
+from config import DB_CONFIG, DATA_CONFIG  # import konfigurace databaze a dat
 
-nazev_projektu='projekt'
-cesta_sour= os.path.join(os.path.dirname(__file__)) + '\..\data\PESL1120.txt'
-cesta_mereni= os.path.join(os.path.dirname(__file__))+ '\..\data\pesl1120.sdr'
 
-projekt=databaze.vytvoreni(nazev_projektu)
+databaze = Databaze()
 
-databaze.vytvoreni_tabulka_gps_sour(projekt)
-databaze.vytvoreni_tabulka_mereni(projekt)
+databaze.vytvoreni(DB_CONFIG["nazev_projektu"])
 
-databaze.mazani_sour(projekt)
-databaze.mazani_mereni(projekt)
+databaze.vytvor_tabulku(DB_CONFIG["tabulka_souradnic"], DB_CONFIG["schema_tabulky_souradnic"])
+databaze.vytvor_tabulku(DB_CONFIG["tabulka_mereni"], DB_CONFIG["schema_tabulky_mereni"])
 
-databaze.import_souradnic(cesta_sour,projekt)
-databaze.import_mereni(cesta_mereni,projekt)
+# databaze.smazat(DB_CONFIG["tabulka_souradnic"], '')
+# databaze.smazat(DB_CONFIG["tabulka_mereni"], '')
 
-data=databaze.sql_query(projekt,'select * from gps_sour')
-print(data[0][:])
+databaze.importuj_sour(DATA_CONFIG['cesta_sour'])
+databaze.importuj_mereni(DATA_CONFIG['cesta_mereni'])
+
+# data=Databaze.sql_query(projekt,'select * from gps_sour')
+# print(data[0][:])
