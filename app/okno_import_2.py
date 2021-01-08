@@ -15,6 +15,12 @@ class MujDialog(QtWidgets.QDialog,Ui_Dialog):
         self.comboBox.addItem('XYZ     ')
         self.comboBox_2.addItem('Sokkia SDR')
 
+        self.toolButton.clicked.connect(self.souradnice)
+        self.toolButton_2.clicked.connect(self.mereni)
+
+        self.show()
+        self.exec()
+
     def accept(self):
         nazev=self.textEdit.toPlainText()
         print(nazev)
@@ -38,11 +44,11 @@ class MujDialog(QtWidgets.QDialog,Ui_Dialog):
         print(self.cesta_mereni[0])
         okno.label_mereni.setText('{} {} {}'.format(self.v,str(self.cesta_mereni[0]),self.v))
 
+if __name__ == "__main__":
+    app=QtWidgets.QApplication([])
+    okno=MujDialog()
+    okno.toolButton.clicked.connect(okno.souradnice)
+    okno.toolButton_2.clicked.connect(okno.mereni)
 
-app=QtWidgets.QApplication([])
-okno=MujDialog()
-okno.toolButton.clicked.connect(okno.souradnice)
-okno.toolButton_2.clicked.connect(okno.mereni)
-
-okno.show()
-app.exec()
+    okno.show()
+    app.exec()
