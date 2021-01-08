@@ -1,2 +1,9 @@
-# 2020-a
-Group A
+# Geodetické výpočty
+
+Jazyk: Python
+
+Skupina:
+
+ * Pane Kuzmanov
+ * Jakub Šimek
+ * Jan Kučera
