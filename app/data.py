@@ -11,18 +11,24 @@ loggerStd.setLevel(LOG_LEVEL)
 
 class Databaze():
 
-    # kostruktor databaze
+    # # kostruktor databaze
     # def __init__(self):
-    #     projekt=DB_CONFIG["nazev_projektu"]+'.db'
-    #     con=sql.connect(projekt)
-    #     con.close()
+    #     # # projekt=DB_CONFIG["nazev_projektu"]+'.db'
+    #     # con=sql.connect(projekt)
+    #     # con.close()
+
+
+
+
+
 
     #vytvori databazi se jmenem z 'projekt'
-    def vytvoreni(self, nazev):
+    def vytvoreni(self, nazev,cesta):
         """
         Vytvori databazi
-        """        
-        self.projekt=nazev+'.db'
+        """
+
+        self.projekt=cesta+nazev+'.db'
         con=sql.connect(self.projekt)
         con.close()
         # return projekt
@@ -68,11 +74,12 @@ class Databaze():
             for radek in f.read().splitlines():
                 CB, Y, X, Z, kod = radek.split(' ')
 
-                query='INSERT INTO gps_sour VALUES({}, " {} ", {}, {}, {}, " {} ")'.format(id, CB, Y, X, Z, kod)
+                query='INSERT INTO gps_sour VALUES({}, " {} ", {}, {}, {}, " {} ")'.format(id, CB,Y, X, Z, kod)
                 self.tabulka = 'gps_sour'
                 self.posli_davku(query)
 
                 id=id+1
+        self.pocet_bodu=id
 
     # TODO: prepsat do unverzalni podoby importu
     #importuje mereni do databaze
@@ -94,7 +101,7 @@ class Databaze():
                     self.posli_davku(query)
 
                     id=id+1
-
+        self.pocet_mereni=id
 
     #pristup k databazi
     def sql_query(nazev_databaze,dotaz):
@@ -105,3 +112,29 @@ class Databaze():
         con.close()
 
         return radky
+
+    def zapis_info(self,cesta):
+        # zapise informace o projektu do tabulky "projekt"
+
+        #odebrani jmena souboru z cesty
+        cesta_inv=cesta[::-1]
+        pozice=cesta_inv.find('/')
+        cesta_konecna=cesta[0:len(cesta)-pozice]
+
+        # zapis informaci
+        con=sql.connect(self.projekt)
+        c=con.cursor()
+        query='insert into  projekt ("{}","{}","{}","{}") values ("{}","{}",{},{})'.format('nazev','cesta','pocet_bodu','pocet_mereni',self.projekt,cesta_konecna,str(self.pocet_bodu),str(self.pocet_mereni))
+
+        c.execute(query)
+
+        con.commit()
+        con.close()
+
+    def pridani_bodu(cesta, query):
+        # zapise spocteny bod
+        con=sql.connect(cesta)
+        c=con.cursor()
+        c.execute(query)
+        con.commit()
+        con.close()

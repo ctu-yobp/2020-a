@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("HoKuPa")
         MainWindow.resize(979, 706)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -27,6 +27,13 @@ class Ui_MainWindow(object):
         self.menuImport.setObjectName("menuImport")
         self.menuV_po_ty = QtWidgets.QMenu(self.menubar)
         self.menuV_po_ty.setObjectName("menuV_po_ty")
+
+        self.menuData = QtWidgets.QMenu(self.menubar)#
+        self.menuData.setObjectName("Data")#
+
+        self.menuO = QtWidgets.QMenu(self.menubar)
+        self.menuO.setObjectName("o_aplikaci")
+
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -37,27 +44,82 @@ class Ui_MainWindow(object):
         self.importTXT.setObjectName("importTXT")
         self.rajon = QtWidgets.QAction(MainWindow)
         self.rajon.setObjectName("rajon")
+        self.protinani_delky = QtWidgets.QAction(MainWindow)
+        self.protinani_delky.setObjectName("protinani_delky")
+
+        self.souradnice = QtWidgets.QAction(MainWindow)#
+        self.souradnice.setObjectName("soubor")#
+
+        self.mereni=QtWidgets.QAction(MainWindow)
+        self.mereni.setObjectName("mereni")
+
+        self.info=QtWidgets.QAction(MainWindow)
+        self.info.setObjectName("info")
+
+        self.o_aplikaci = QtWidgets.QAction(MainWindow)
+        self.o_aplikaci.setObjectName("infoA")
+
         self.smernikdelka = QtWidgets.QAction(MainWindow)
         self.smernikdelka.setObjectName("smernikdelka")
+
+        self.otevri = QtWidgets.QAction(MainWindow)
+        self.otevri.setObjectName("otevri")
+
+        self.zavri = QtWidgets.QAction(MainWindow)
+        self.zavri.setObjectName("zavri")
+
+        self.grafika = QtWidgets.QAction(MainWindow)
+        self.grafika.setObjectName("grafika")
+
+
+
         self.menuSoubor.addAction(self.menuImport.menuAction())
+        self.menuData.addAction(self.souradnice)#
+        self.menuData.addAction(self.mereni)
+        self.menuData.addAction(self.grafika)
+        self.menuData.addAction(self.info)
+        self.menuSoubor.addAction(self.otevri)
+        self.menuSoubor.addAction(self.zavri)
+
+        self.menuO.addAction(self.o_aplikaci)
+
         self.menuV_po_ty.addAction(self.rajon)
         self.menuV_po_ty.addAction(self.smernikdelka)
+        self.menuV_po_ty.addAction(self.protinani_delky)
         self.menubar.addAction(self.menuSoubor.menuAction())
         self.menubar.addAction(self.menuV_po_ty.menuAction())
+        self.menubar.addAction(self.menuData.menuAction())#
+        self.menubar.addAction(self.menuO.menuAction())
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        #cesta k souboru souradnic
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.menuSoubor.setTitle(_translate("MainWindow", "Soubor"))
-        self.menuImport.setTitle(_translate("MainWindow", "Nový"))
-        self.menuV_po_ty.setTitle(_translate("MainWindow", "Výpočty"))
-        self.importSDR.setText(_translate("MainWindow", "Měření \'.sdr\'"))
-        self.importTXT.setText(_translate("MainWindow", "Souřadnice \'.txt\'"))
-        self.rajon.setText(_translate("MainWindow", "Rajón"))
-        self.smernikdelka.setText(_translate("MainWindow", "Délka a směrník"))
+        MainWindow.setWindowTitle(_translate("HoKuPa", "HoKuPa"))
+        self.menuSoubor.setTitle(_translate("HoKuPa", "Soubor"))
+        self.menuImport.setTitle(_translate("HoKuPa", "Nový"))
+        self.menuV_po_ty.setTitle(_translate("HoKuPa", "Výpočty"))
+
+        self.menuData.setTitle(_translate("HoKuPa", "Data"))#
+        self.menuO.setTitle(_translate("HoKuPa","O aplikaci"))
+
+        self.importSDR.setText(_translate("HoKuPa", "Měření \'.sdr\'"))
+        self.importTXT.setText(_translate("HoKuPa", "Souřadnice \'.txt\'"))
+        self.rajon.setText(_translate("HoKuPa", "Rajón"))
+        self.smernikdelka.setText(_translate("HoKuPa", "Délka a směrník"))
+        self.souradnice.setText(_translate("HoKuPa","Seznam souřadnic"))#
+        self.mereni.setText(_translate("HoKuPa","Seznam měření"))
+        self.protinani_delky.setText(_translate("HoKuPa", "Protínání z délek"))
+        self.o_aplikaci.setText(_translate("HoKuPa","Info o projektu"))
+        self.otevri.setText(_translate("HoKuPa","Otevři projekt"))
+        self.info.setText(_translate("HoKuPa",'Info o projektu'))
+        self.zavri.setText(_translate("HoKuPa", "Zavři projekt"))
+        self.grafika.setText(_translate("HoKuPa", "Grafika"))
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from math import atan2, cos, sin, pi, acos
+from math import atan2, cos, sin, pi
 from sqlite3.dbapi2 import connect
 
 # (X, Y) : LOKALNI SOURADNICE
@@ -40,26 +40,6 @@ def vyp_stanovisko(b_ori):
     stan['X'] = A[0][0] + a_1 * (0 - A[1][0]) - a_2 * (0 - A[1][1])
     stan['Y'] = A[0][1] + a_1 * (0 - A[1][1]) + a_2 * (0 - A[1][0])
     return stan
-
-
-def prot_delek(bod1, bod2, d1, d2):
-    dx = bod1[0]-bod2[0]
-    dy = bod1[1]-bod2[1]
-    d12 = (dx**2 + dy**2)**(1/2)
-
-    sigma12 = atan2(dy, dx) * 200/pi
-    sigma21 = (sigma12 + 200)
-
-    om1 = acos((d12**2 + d1**2 - d2**2)/(2 * d1 * d12)) * 200/pi
-    om2 = acos((d12**2 + d2**2 - d1**2)/(2 * d12 * d2)) * 200/pi
-
-    sigma2 = sigma12 + om2
-    sigma1 = sigma21 - om1
-
-    bX = bod2[0] + d2 * cos(sigma2*pi/200)
-    bY = bod2[1] + d2 * sin(sigma2*pi/200)
-    vysledny_bod = [bX, bY]
-    return vysledny_bod
 
 
 # test_points = {503: {'x': 1044278.81, 'y': 834640.46, 'delka': 289.367, 'smer': 20.3894}, 504: {'x': 1044292.22, 'y': 834620.52, 'delka': 280.67, 'smer': 25.3950}}
@@ -111,18 +91,9 @@ def main():
         cur.execute('DROP TABLE IF EXISTS vysledky')
         cur.execute('CREATE TABLE IF NOT EXISTS vysledky (id int PRIMARY KEY, CB text,Y double,X double)')
         id = 1
-        with open("results.txt", "w") as f:
-            f.write("Protokol vypoctu\nBod, Y, X\n")
-            for key in body.keys():
-                cur.execute(f"INSERT INTO vysledky VALUES ({id},{key},{body[key]['y']},{body[key]['x']})")
-                f.write(f"{key}, {body[key]['y']}, {body[key]['x']}\n")
-                id += 1
+        for key in body.keys():
+            cur.execute(f"INSERT INTO vysledky VALUES ({id},{key},{body[key]['y']},{body[key]['x']})")
+            id += 1
 
 
 main()
-
-# P1 = [1011445.66, 853704.65]
-# P2 = [1011270.35, 852501.72]
-# S1 = 703.84
-# S2 = 846.61
-# print(prot_delek(P1, P2, S1, S2))

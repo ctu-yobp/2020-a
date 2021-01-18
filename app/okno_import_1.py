@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
+        Dialog.setObjectName("Zalozeni projektu")
         Dialog.resize(468, 245)
         self.widget = QtWidgets.QWidget(Dialog)
         self.widget.setGeometry(QtCore.QRect(20, 20, 431, 211))
@@ -142,14 +142,14 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "Název projektu:"))
-        self.label_2.setText(_translate("Dialog", "Seznam souřadnic:"))
-        self.toolButton.setText(_translate("Dialog", "..."))
-        self.label_4.setText(_translate("Dialog", "Formát seznamu souřadnic:"))
-        self.label_3.setText(_translate("Dialog", "Záznam měření:"))
-        self.toolButton_2.setText(_translate("Dialog", "..."))
-        self.label_5.setText(_translate("Dialog", "Formát seznamu souřadnic:"))
+        Dialog.setWindowTitle(_translate("Zalozeni projektu", "Zalozeni projektu"))
+        self.label.setText(_translate("Zalozeni projektu", "Název projektu:"))
+        self.label_2.setText(_translate("Zalozeni projektu", "Seznam souřadnic:"))
+        self.toolButton.setText(_translate("Zalozeni projektu", "..."))
+        self.label_4.setText(_translate("Zalozeni projektu", "Formát seznamu souřadnic:"))
+        self.label_3.setText(_translate("Zalozeni projektu", "Záznam měření:"))
+        self.toolButton_2.setText(_translate("Zalozeni projektu", "..."))
+        self.label_5.setText(_translate("Zalozeni projektu", "Formát seznamu souřadnic:"))
 
 
 if __name__ == "__main__":
