@@ -15,6 +15,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(879, 838)
+        Dialog.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.tableView = QtWidgets.QTableView(Dialog)
         self.tableView.setGeometry(QtCore.QRect(10, 10, 861, 821))
         self.tableView.setObjectName("tableView")

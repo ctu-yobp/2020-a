@@ -15,6 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("HoKuPa")
         MainWindow.resize(979, 706)
+        MainWindow.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -71,6 +72,14 @@ class Ui_MainWindow(object):
         self.grafika = QtWidgets.QAction(MainWindow)
         self.grafika.setObjectName("grafika")
 
+        self.exportSour = QtWidgets.QAction(MainWindow)
+        self.exportSour.setObjectName("exportSour")
+
+        self.volneStanovisko = QtWidgets.QAction(MainWindow)
+        self.volneStanovisko.setObjectName("volneStanovisko")
+
+        self.rajon_hromadne=QtWidgets.QAction(MainWindow)
+        self.rajon_hromadne.setObjectName("rajon_hromadne")
 
 
         self.menuSoubor.addAction(self.menuImport.menuAction())
@@ -79,13 +88,17 @@ class Ui_MainWindow(object):
         self.menuData.addAction(self.grafika)
         self.menuData.addAction(self.info)
         self.menuSoubor.addAction(self.otevri)
+        self.menuSoubor.addAction(self.exportSour)
         self.menuSoubor.addAction(self.zavri)
+
 
         self.menuO.addAction(self.o_aplikaci)
 
         self.menuV_po_ty.addAction(self.rajon)
+        self.menuV_po_ty.addAction(self.rajon_hromadne)
         self.menuV_po_ty.addAction(self.smernikdelka)
         self.menuV_po_ty.addAction(self.protinani_delky)
+        self.menuV_po_ty.addAction(self.volneStanovisko)
         self.menubar.addAction(self.menuSoubor.menuAction())
         self.menubar.addAction(self.menuV_po_ty.menuAction())
         self.menubar.addAction(self.menuData.menuAction())#
@@ -100,7 +113,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("HoKuPa", "HoKuPa"))
+        MainWindow.setWindowTitle(_translate("HoKuPa", "GeoApp"))
         self.menuSoubor.setTitle(_translate("HoKuPa", "Soubor"))
         self.menuImport.setTitle(_translate("HoKuPa", "Nový"))
         self.menuV_po_ty.setTitle(_translate("HoKuPa", "Výpočty"))
@@ -115,11 +128,14 @@ class Ui_MainWindow(object):
         self.souradnice.setText(_translate("HoKuPa","Seznam souřadnic"))#
         self.mereni.setText(_translate("HoKuPa","Seznam měření"))
         self.protinani_delky.setText(_translate("HoKuPa", "Protínání z délek"))
-        self.o_aplikaci.setText(_translate("HoKuPa","Info o projektu"))
+        self.o_aplikaci.setText(_translate("HoKuPa","Informace o aplikaci"))
         self.otevri.setText(_translate("HoKuPa","Otevři projekt"))
         self.info.setText(_translate("HoKuPa",'Info o projektu'))
         self.zavri.setText(_translate("HoKuPa", "Zavři projekt"))
         self.grafika.setText(_translate("HoKuPa", "Grafika"))
+        self.exportSour.setText(_translate("HoKuPa", "Export seznamu souradnic"))
+        self.volneStanovisko.setText(_translate("HoKuPa", "Volné stanovisko"))
+        self.rajon_hromadne.setText(_translate("HoKuPa", "Rajón hromadně"))
 
 
 if __name__ == "__main__":

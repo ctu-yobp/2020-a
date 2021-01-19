@@ -8,9 +8,10 @@ from cesta import path
 
 class Smernikadelka(QtWidgets.QDialog,Ui_Smernikadelka):
 
-    def __init__(self):
+    def __init__(self, cesta_projektu):
         super().__init__()
         self.setupUi(self)
+        self.cesta=cesta_projektu
 
 
         self.uloz_protokol_2.clicked.connect(self.vypocet) #kliknuti na vypocet
@@ -27,53 +28,37 @@ class Smernikadelka(QtWidgets.QDialog,Ui_Smernikadelka):
         self.stanovisko=self.textEdit.toPlainText() # stanovisko
         self.cil=self.textEdit_2.toPlainText() # cil
 
-        print(self.cil)
-        print(self.stanovisko)
+        print("Z bodu: {}".format(self.cil))
+        print("Na bod: {}".format(self.stanovisko))
 
-        # nacte ze souboru "nazev.txt" projektu
-        with open("nazev.txt") as n:
-            nazev=n.readlines()
-
-        nazev=nazev[0]
-        # databaze='{}.db'.format(nazev)
-        self.databaze=nazev
-
-
-        #pripojeni k databazi a vybrani souradnic
-        con=sql.connect(self.databaze)
         query1='select Y, X from gps_sour where CB is {}{}{}{}{} '.format('"',' ',str(self.stanovisko),' ','"')
         query2='select Y, X from gps_sour where CB is {}{}{}{}{} '.format('"',' ',str(self.cil),' ','"')
 
-        cur=con.cursor()
+        bod1=Databaze.sql_query(self.cesta,query1)
+        bod2=Databaze.sql_query(self.cesta,query2)
 
-        cur.execute(query1)
-        bod1=cur.fetchall()
+        try:
+            #vypocet smerniku a delky
+            self.delka=vypocty.delka(bod1,bod2)
+            self.delka=vypocty.zaokrouhleni(self.delka,3)
 
-        cur.execute(query2)
-        bod2=cur.fetchall()
+            self.smernik=vypocty.smernik(bod1,bod2)
+            self.smernik=vypocty.zaokrouhleni(self.smernik,4)
 
-
-        print(bod1)
-        print(bod2)
-        con.commit()
-        con.close()
-
-        #vypocet smerniku a delky
-        self.delka=vypocty.delka(bod1,bod2)
-        self.delka=vypocty.zaokrouhleni(self.delka,3)
-
-        self.smernik=vypocty.smernik(bod1,bod2)
-        self.smernik=vypocty.zaokrouhleni(self.smernik,4)
-
-        # posle delku a smernik do oken
-        self.textEdit_4.setText(str(self.delka))
-        self.textEdit_3.setText(str(self.smernik))
+            # posle delku a smernik do oken
+            self.textEdit_4.setText(str(self.delka))
+            self.textEdit_3.setText(str(self.smernik))
+        except IndexError:
+            print("Body nejsou v seznamu souradnic!!")
 
     def protokol(self):
+        # ulozi protokol o vypoctu
+        cesta=QFileDialog.getSaveFileUrl()
+        cesta=cesta[0].toString()
+        cesta=cesta[8:]
 
-        slozka=path.ubrani_souboru(self.databaze)
-        cesta_ulozeni = slozka+'protokol_smernikdelka{}_{}.txt'.format(self.stanovisko,self.cil)
-        protokol = open(cesta_ulozeni,'a')
+        # vypsani protokolu
+        protokol = open(cesta,'a')
         protokol.write("************************* \n")
         protokol.write("Vypocet smerniku a delky \n")
         protokol.write("Stanovisko: {} \n".format(self.stanovisko))
@@ -82,7 +67,9 @@ class Smernikadelka(QtWidgets.QDialog,Ui_Smernikadelka):
         protokol.write("Smernik: {} g \n".format(self.smernik))
         protokol.write("************************* \n")
         protokol.close()
-        
+
+        print("Protokol ulozen!!")
+
 
 
 if __name__ == "__main__":

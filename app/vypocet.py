@@ -1,6 +1,7 @@
 from math import atan2, cos, sin, pi, sqrt, acos
 from sqlite3.dbapi2 import connect
 import sqlite3 as sql
+from data import Databaze
 
 # (X, Y) : LOKALNI SOURADNICE
 # (x, y) : SOURADNICE S-JTSK
@@ -37,7 +38,7 @@ class vypocty():
         for key in b_ori.keys():
             y_dif = b_ori[key]['y'] - b_sta['Y']
             x_dif = b_ori[key]['x'] - b_sta['X']
-            sigma = 400 - (b_ori[key]['smer'] - atan2(y_dif, x_dif))
+            sigma = 400*pi/200 - (b_ori[key]['smer']*pi/200 - atan2(y_dif, x_dif))
             smernik += sigma
         smernik /= len(b_ori)
 
@@ -69,7 +70,7 @@ class vypocty():
         stan['X'] = A[0][0] + a_1 * (0 - A[1][0]) - a_2 * (0 - A[1][1])
         stan['Y'] = A[0][1] + a_1 * (0 - A[1][1]) + a_2 * (0 - A[1][0])
 
-        print(stan)
+        # print(stan)
         return stan
 
     def prot_delek(bod1, bod2, d1, d2):
@@ -92,96 +93,64 @@ class vypocty():
         vysledny_bod = [bX, bY]
         return vysledny_bod
 
-# bod1=[(1041118.761, 736712.811)]
-# # bod2=[(1041100.213, 736749.135)]
-# # bod=vypocty.prot_delek(bod1,bod2,100,100)
-# # print(bod)
+    def davka(cesta, stanovisko,orientace):
+        xy_orientace = {}
+        mereni_body = {}
+
+        try:
+            query='select CB, X, Y from gps_sour where CB is " {} "'.format(str(orientace))
+            orientace_sour=Databaze.sql_query(cesta,query)
+            CB=int(orientace_sour[0][0])
+            xy_orientace[CB] = {}
+            xy_orientace[CB]['x'] = orientace_sour[0][1]
+            xy_orientace[CB]['y'] = orientace_sour[0][2]
 
 
 
-# test_points = {503: {'x': 1044278.81, 'y': 834640.46, 'delka': 289.367, 'smer': 20.3894}, 504: {'x': 1044292.22, 'y': 834620.52, 'delka': 280.67, 'smer': 25.3950}}
+            query='select Orientace, Delka, Zenitka, Smer,kod from mereni where Stanovisko is " {} "'.format(str(stanovisko))
+            body_sour=Databaze.sql_query(cesta,query)
 
-# b_ori={5001:{'x': 1044278.81, 'y': 834640.46, 'smer': 12}}
-# b_sta={'X': 1044288.81, 'Y': 834650.46}
-# b_mer={5003:{'delka': 100, 'smer': 36.69}}
-# vys=vypocty.rajon(b_ori,b_sta,b_mer)
-# print(vys[5003]['x'])
+            for i in range(0,len(body_sour)):
 
-
-# # vypocty.vyp_stanovisko(test_points)
-#
-# # print(test_points)
-#
-# con=sql.connect("PESL1120.db")
-# query1='select Y, X from gps_sour where CB is {}{}{}{}{} '.format('"',' ',str(1),' ','"')
-# query2='select Y, X from gps_sour where CB is {}{}{}{}{} '.format('"',' ',str(2),' ','"')
-#
-# cur=con.cursor()
-#
-# cur.execute(query1)
-# bod1=cur.fetchall()
-#
-# cur.execute(query2)
-# bod2=cur.fetchall()
-#
-#
-# print(bod1)
-# print(bod2)
-# con.commit()
-# con.close()
-#
-# vypocty.delka(bod1,bod2)
-# vypocty.smernik(bod1,bod2)
+                CB=int(body_sour[i][0])
+                delka=body_sour[i][1]*sin(body_sour[i][2]*pi/200)
+                smer=body_sour[i][3]
 
 
-# def main():
-#     xy_orientace = {}
-#     mereni_body = {}
-#
-#     with connect('import_do_databaze\\projekt.db') as con:
-#         cur = con.cursor()
-#
-#         cur.execute('SELECT (SUBSTR(CB,2,4)) as CB, AVG(X), AVG(Y) FROM gps_sour group by 1;')
-#         radky = cur.fetchall()
-#         for CB, x, y in radky:
-#             CB = int(CB)
-#             if CB > 4000:
-#                 xy_orientace[CB] = {}
-#                 xy_orientace[CB]['x'] = x
-#                 xy_orientace[CB]['y'] = y
-#
-#         cur.execute('SELECT Orientace as CB, Delka, Smer from mereni;')
-#         radky = cur.fetchall()
-#         for CB, delka, smer in radky:
-#             CB = int(CB)
-#             if CB > 4000:
-#                 try:
-#                     xy_orientace[CB]['delka'] = delka
-#                     xy_orientace[CB]['smer'] = smer
-#                 except KeyError:
-#                     xy_orientace[CB] = {}
-#                     xy_orientace[CB]['delka'] = delka
-#                     xy_orientace[CB]['smer'] = smer
-#             else:
-#                 mereni_body[CB] = {}
-#                 mereni_body[CB]['delka'] = delka
-#                 mereni_body[CB]['smer'] = smer
-#
-#     # print(xy_orientace)
-#     # print(mereni_body)
-#
-#     stanovisko = vyp_stanovisko(xy_orientace)
-#     body = rajon(xy_orientace, stanovisko, mereni_body)
-#
-#     with connect('import_do_databaze\\projekt.db') as con:
-#         cur = con.cursor()
-#
-#         cur.execute('DROP TABLE IF EXISTS vysledky')
-#         cur.execute('CREATE TABLE IF NOT EXISTS vysledky (id int PRIMARY KEY, CB text,Y double,X double)')
-#         id = 1
-#         for key in body.keys():
-#             cur.execute(f"INSERT INTO vysledky VALUES ({id},{key},{body[key]['y']},{body[key]['x']})")
-#             id += 1
-#
-#
-# main()
+                mereni_body[CB] = {}
+                mereni_body[CB]['delka'] = delka
+                mereni_body[CB]['smer'] = smer
+                if CB==int(orientace):
+                    xy_orientace[CB]['delka']=body_sour[i][1]*sin(body_sour[i][2])
+                    xy_orientace[CB]['smer']=smer
+
+            # print(mereni_body)
+            query='select X,Y from gps_sour where CB is " {} "'.format(str(stanovisko))
+            stan_sour=Databaze.sql_query(cesta,query)
+
+            stanovisko = {'X': 0, 'Y': 0}
+            stanovisko['X'] = stan_sour[0][0]
+            stanovisko['Y'] = stan_sour[0][1]
+
+
+            body = vypocty.rajon(xy_orientace, stanovisko, mereni_body)
+
+
+            con=sql.connect(cesta)
+            c=con.cursor()
+            for i in range(0,len(body)):
+                CB=body_sour[i][0]
+                X=vypocty.zaokrouhleni(body[CB]['x'],3)
+                Y=vypocty.zaokrouhleni(body[CB]['y'],3)
+                kod=body_sour[i][4]
+
+                if CB<4000:
+                    query='insert into gps_sour (CB, X, Y, kod) values (" {} ", {}, {}, " {} ") '.format(CB, str(X) ,str(Y), kod)
+
+                    c.execute(query)
+
+            con.commit()
+            con.close()
+            return i
+        except IndexError:
+            print('Data nejsou soucasti projektu!!')

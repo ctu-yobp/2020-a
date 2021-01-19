@@ -10,8 +10,11 @@ from seznam_souradnic_2 import Seznam
 from smernikadelka import Smernikadelka
 from seznam_mereni_2 import Seznam_mereni
 from rajon_2 import Rajon
-import matplotlib.pyplot as plt
 from protinani_del_2 import Protinani_delky
+from grafika import Grafika
+from volne_stanovisko_2 import Volnestanovisko
+from rajon_hromadne_2 import Rajon_hromadne
+
 
 class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
 
@@ -34,27 +37,34 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         self.otevri.triggered.connect(self.otevri_projekt) # odkaze na tlacitko otevreni projektu
         self.zavri.triggered.connect(self.zavri_projekt) # odkaze na tlacitko zavreni projektu
         self.grafika.triggered.connect(self.zobraz_grafiku) # odkaze na tlacitko otevreni grafiky
+        self.exportSour.triggered.connect(self.exportSouradnic) # odkaze na tlacitko exportu souradnic
+        self.volneStanovisko.triggered.connect(self.volneStan)
+        self.rajon_hromadne.triggered.connect(self.rajon_hrom)
 
     def seznam_souradnic(self):
         # otevreni seznamu souradnic
-        # #nacte pozici databaze ze souboru "nazev.txt"
-        cesta=path.ziskej_cestu()
 
         print("*******************************************")
-        print("Otevren seznam souradnic")
 
-        okno=Seznam(cesta[0])
+
+        try:
+            okno=Seznam(self.cesta_projektu[0])
+            print("Otevren seznam souradnic")
+        except AttributeError:
+            print("Neni aktivni projekt!")
 
 
     def seznam_mereni(self):
         # otevreni seznamu mereni
-        # #nacte pozici databaze ze souboru "nazev.txt"
-        cesta=path.ziskej_cestu()
 
         print("*******************************************")
-        print("Otevren seznam mereni")
 
-        okno1=Seznam_mereni(cesta[0])
+
+        try:
+            okno1=Seznam_mereni(self.cesta_projektu[0])
+            print("Otevren seznam mereni")
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
 
     def pozdrav(self):
@@ -63,6 +73,7 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         print("Zalozeni noveho projektu")
 
         okno1 = MujDialog()
+        self.cesta_projektu=okno1.global_cesta
 
 
     def rajon1(self):
@@ -70,7 +81,10 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         print("*******************************************")
         print("Vypocet rajonu")
 
-        okno_rajon=Rajon()
+        try:
+            okno_rajon=Rajon(self.cesta_projektu[0])
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
 
     def smernikdelka1(self):
@@ -78,29 +92,38 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         print("*******************************************")
         print("Vypocet smerniku a delky")
 
-        okno=Smernikadelka()
+        try:
+            okno=Smernikadelka(self.cesta_projektu[0])
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
     def protinani_del(self):
         # otevre okno pro vypocet protinani z delek
         print("*******************************************")
         print("Vypocet protinani z delek")
 
-        okno_delky=Protinani_delky()
+        try:
+            okno_delky=Protinani_delky(self.cesta_projektu[0])
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
     def info_projekt(self):
         # vypise info o zalozenem projektu
-        # nacte nazev databaze
-        cesta=path.ziskej_cestu()
 
         #ziskani informaci z databaze
-        info=Databaze.sql_query(cesta[0],'select * from projekt')
-        pocet_stanovisek=Databaze.sql_query(cesta[0],'SELECT count(distinct Stanovisko) from mereni group by Stanovisko')
+        try:
+            info=Databaze.sql_query(self.cesta_projektu[0],'select * from projekt')
+            pocet_stanovisek=Databaze.sql_query(self.cesta_projektu[0],'SELECT count(distinct Stanovisko) from mereni group by Stanovisko')
 
-        # vypis infa do terminalu
-        print("*******************************************")
-        print("Pocet bodu z GPS:       {}".format(info[0][2]))
-        print("Pocet bodu v zapisniku: {}".format(info[0][3]))
-        print("Pocet stanovisek:       {}".format(pocet_stanovisek[0][0]))
+            # vypis infa do terminalu
+            print("*******************************************")
+            print("Aktivni projekt: {}".format(self.cesta_projektu[0]))
+            print("Pocet bodu z GPS:       {}".format(info[0][2]))
+            print("Pocet bodu v zapisniku: {}".format(info[0][3]))
+            print("Pocet stanovisek:       {}".format(pocet_stanovisek[0][0]))
+
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
     def info_projekt1(self):
         # vypise do terminalo informace o aplikaci
@@ -118,38 +141,48 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         print("Otevreni noveho projektu")
 
         # otevre okno pro ukazani na projekt
-        self.cesta_projekt=QFileDialog.getOpenFileName()
-        print(self.cesta_projekt[0])
-
-        # zapise cestu k projektu do souboru "nazev.txt"
-        path.zapis_cestu(self.cesta_projekt[0])
+        self.cesta_projektu=QFileDialog.getOpenFileName(None,None,None,'DB(*.db)')
 
         # otevre okna
-        okno_mereni=Seznam_mereni(self.cesta_projekt[0])
-        okno_souradnice=Seznam(self.cesta_projekt[0])
+        # okno_mereni=Seznam_mereni(self.cesta_projektu[0])
+        # okno_souradnice=Seznam(self.cesta_projektu[0])
 
     def zavri_projekt(self):
-        # vymaze z "nazev.txt" cestu k projektu
-        path.zapis_cestu("")
+        # zavre aktualni projekt
+        try:
+            del self.cesta_projektu
+        except:
+            print("Neni co zavrit!!")
 
     def zobraz_grafiku(self):
         # ukaze graficky souradnice
-        query="select Y, X, CB from gps_sour"
-        cesta=path.ziskej_cestu()
-        sour=Databaze.sql_query(cesta[0],query)
+        print("*******************************************")
+        try:
+            okno_grafika=Grafika(self.cesta_projektu[0])
+            print("Grafika otevrena!!")
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
-        y=[]
-        x=[]
-        for i in range(0,len(sour)):
-            Y=-sour[i][0]
-            X=-sour[i][1]
-            y.append(Y)
-            x.append(X)
-            plt.text(Y,X,sour[i][2])
+    def exportSouradnic(self):
+        # export senamu souradnic
+        cesta_export=QFileDialog.getSaveFileUrl()
+        cesta_export=cesta_export[0].toString()
+        cesta_export=cesta_export[8:]
 
-        plt.plot(y,x,'+')
-        plt.show()
+        Databaze.export2txt(self.cesta_projektu[0],cesta_export)
+        print("Seznam souradnic ulozen!!")
 
+    def volneStan(self):
+        # otevreni okna pro vypocet volneho stanoviska
+        okno_stanovisko=Volnestanovisko(self.cesta_projektu[0])
+
+    def rajon_hrom(self):
+
+        try:
+            okno_rajon_hrom=Rajon_hromadne(self.cesta_projektu[0])
+            print('Body spocteny a ulozeny')
+        except AttributeError:
+            print("Neni aktivni projekt!!")
 
 
 

@@ -15,6 +15,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Zalozeni projektu")
         Dialog.resize(468, 245)
+        Dialog.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.widget = QtWidgets.QWidget(Dialog)
         self.widget.setGeometry(QtCore.QRect(20, 20, 431, 211))
         self.widget.setObjectName("widget")

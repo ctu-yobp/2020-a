@@ -12,20 +12,6 @@ class Seznam(QtWidgets.QDialog,Ui_Seznam):
         self.setupUi(self)
         self.cesta_nazvu=cesta_nazvu
 
-
-
-        # # nacte nazev aktualniho projektu ze souboru "nazev.txt"
-        # with open(cesta_nazvu) as n:
-        #     nazev=n.readlines()
-        #
-        # nazev=nazev[0]
-        # cesta_inv=cesta_nazvu[::-1] #invertuje cestu
-        # pozice=cesta_inv.find('/') #najde poradi lomitka
-        # cesta_konecna=cesta_nazvu[0:len(cesta_nazvu)-pozice] #udela cestu adresare bez nazvu souboru
-        #
-        # databaze=cesta_konecna+nazev #vytvori cestu+nazev databaze
-
-
         #otevreni databaze
         db = QSqlDatabase.addDatabase("QSQLITE","db")
         db.setDatabaseName(cesta_nazvu)
@@ -44,12 +30,7 @@ class Seznam(QtWidgets.QDialog,Ui_Seznam):
 
         QSqlDatabase.removeDatabase("db")
         self.show()
-        # self.exec()
-
-        # print("*******************************************")
-        # print("Zalozen projekt {}".format(cesta_nazvu))
-
-
+        self.exec()
 
 
 if __name__ == "__main__":

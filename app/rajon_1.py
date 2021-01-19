@@ -15,6 +15,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(582, 250)
+        Dialog.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(360, 190, 201, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)

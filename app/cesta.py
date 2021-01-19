@@ -8,20 +8,6 @@ class path():
 
          return cesta_konecna
 
-    def ziskej_cestu():
-        # vraci cestu databaze
-        with open('nazev.txt') as f:
-            cesta=f.readlines()
-        f.close()
-        return cesta
-
-    def zapis_cestu(cesta_projekt):
-        soubor=open("nazev.txt","w")
-        soubor.write(cesta_projekt)
-        soubor.close()
-
-
-
 def pozdrav():
     print("----------------------------------")
     print("Nazdar šprte!   -   здраво нероди!")

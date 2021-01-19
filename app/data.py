@@ -17,11 +17,6 @@ class Databaze():
     #     # con=sql.connect(projekt)
     #     # con.close()
 
-
-
-
-
-
     #vytvori databazi se jmenem z 'projekt'
     def vytvoreni(self, nazev,cesta):
         """
@@ -138,3 +133,19 @@ class Databaze():
         c.execute(query)
         con.commit()
         con.close()
+
+    def export2txt(cesta_projekt,cesta):
+        # export seznamu souradnic do textaku
+        sour=Databaze.sql_query(cesta_projekt,'select * from gps_sour')
+
+        protokol = open(cesta,'a')
+        for i in range(0,len(sour)):
+            cb=sour[i][1]
+            Y=str(sour[i][2])
+            X=str(sour[i][3])
+            Z=str(sour[i][4])
+            kod=sour[i][5]
+            radek='{} {} {} {} {} \n'.format(cb,Y,X,Z,kod)
+            protokol.write(radek)
+
+        protokol.close()

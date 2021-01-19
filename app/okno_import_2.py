@@ -15,6 +15,7 @@ class MujDialog(QtWidgets.QDialog,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.global_cesta=[]
         self.v='~~~'
         # moznosti importu do rolovacich menu
         self.comboBox.addItem('XYZ     ')
@@ -49,30 +50,21 @@ class MujDialog(QtWidgets.QDialog,Ui_Dialog):
         databaze.importuj_mereni(str(self.cesta_mereni[0]))
         databaze.zapis_info(self.cesta_souradnice[0])
 
-
-        # cesta_nazvu=cesta_konecna+'nazev.txt'
-        # soubor=open(cesta_nazvu,"w")
-        # soubor.write(nazev+'.db')
-        # soubor.close()
-
-        zapis=open("nazev.txt","w")
         f=str(cesta_konecna+nazev+'.db')
-        zapis.write(f)
         print('Projekt ulozen do: '+cesta_konecna+nazev+'.db')
-        zapis.close()
+        self.global_cesta.append(f)
 
         self.close()
 
-        okno_souradnice=Seznam(f)
-        okno_mereni=Seznam_mereni(f)
-
-
+        # okno_souradnice=Seznam(f)
+        # okno_mereni=Seznam_mereni(f)
 
     def souradnice(self):
         # otevreni okna na nalezeni seznamu souradnic
         print("*******************************************")
         print("Ukaz cestu souboru souradnic")
-        self.cesta_souradnice=QFileDialog.getOpenFileName()
+        filter='txt(*.txt)'
+        self.cesta_souradnice=QFileDialog.getOpenFileName(None,None,None,filter)
         # print('Projekt ulozen: {}'.format(self.cesta_souradnice[0]))
 
         # vytiskne cestu
@@ -82,7 +74,8 @@ class MujDialog(QtWidgets.QDialog,Ui_Dialog):
         # otevreni okna na nalezeni zapisniku mereni
         print("*******************************************")
         print("Ukaz cestu souboru mereni")
-        self.cesta_mereni=QFileDialog.getOpenFileName()
+        filter='Sokkia(*.sdr)'
+        self.cesta_mereni=QFileDialog.getOpenFileName(None,None,None,filter)
         # print(self.cesta_mereni[0])
 
         # vytiskne cestu

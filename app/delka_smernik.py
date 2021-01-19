@@ -15,6 +15,7 @@ class Ui_Smernikadelka(object):
     def setupUi(self, Smernikadelka):
         Smernikadelka.setObjectName("Smernikadelka")
         Smernikadelka.resize(550, 250)
+        Dialog.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.layoutWidget = QtWidgets.QWidget(Smernikadelka)
         self.layoutWidget.setGeometry(QtCore.QRect(10, 10, 531, 231))
         self.layoutWidget.setObjectName("layoutWidget")
