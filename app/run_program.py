@@ -151,6 +151,7 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         # zavre aktualni projekt
         try:
             del self.cesta_projektu
+            print("Projekt zavren!!")
         except:
             print("Neni co zavrit!!")
 
@@ -174,10 +175,15 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
 
     def volneStan(self):
         # otevreni okna pro vypocet volneho stanoviska
-        okno_stanovisko=Volnestanovisko(self.cesta_projektu[0])
-
+        print("*******************************************")
+        try:
+            okno_stanovisko=Volnestanovisko(self.cesta_projektu[0])
+            print("Vypocet volneho stanoviska!!")
+        except AttributeError:
+            print("Neni aktivni projekt!!")
+            
     def rajon_hrom(self):
-
+        # vypocet rajonu
         try:
             okno_rajon_hrom=Rajon_hromadne(self.cesta_projektu[0])
             print('Body spocteny a ulozeny')

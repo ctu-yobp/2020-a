@@ -9,19 +9,20 @@ from data import Databaze
 class vypocty():
 
     def zaokrouhleni(cislo,pocet_mist):
+        # zaokrouhleni cisla
         zao=round(cislo*10**pocet_mist)/10**pocet_mist
 
         return zao
 
     def delka(bod1, bod2):
-
+        # vypocet delky
         dx=bod1[0][1]-bod2[0][1]
         dy=bod1[0][0]-bod2[0][0]
         d=sqrt(dx*dx+dy*dy)
         return d
 
     def smernik(bod1, bod2):
-
+        # vypocet smerniku
         dx=-bod1[0][1]+bod2[0][1]
         dy=-bod1[0][0]+bod2[0][0]
         smernik=atan2(dy,dx)
@@ -34,6 +35,7 @@ class vypocty():
         return smernik
 
     def rajon(b_ori, b_sta, b_mer):
+        # vypocet rajonu
         smernik = 0
         for key in b_ori.keys():
             y_dif = b_ori[key]['y'] - b_sta['Y']
@@ -51,6 +53,7 @@ class vypocty():
 
 
     def vyp_stanovisko(b_ori):
+        # vypocet volneho stanoviska
         stan = {'X': 0, 'Y': 0}
         # Lokalni souradnice
         keys = list(b_ori.keys())
@@ -74,6 +77,7 @@ class vypocty():
         return stan
 
     def prot_delek(bod1, bod2, d1, d2):
+        # vypocet protinani z delek
         dx = bod1[0]-bod2[0]
         dy = bod1[1]-bod2[1]
         d12 = (dx**2 + dy**2)**(1/2)
@@ -94,10 +98,12 @@ class vypocty():
         return vysledny_bod
 
     def davka(cesta, stanovisko,orientace):
+        # vypocet rajonu hromadne
         xy_orientace = {}
         mereni_body = {}
 
         try:
+            # zsiakni souradnic orientace
             query='select CB, X, Y from gps_sour where CB is " {} "'.format(str(orientace))
             orientace_sour=Databaze.sql_query(cesta,query)
             CB=int(orientace_sour[0][0])
@@ -105,10 +111,10 @@ class vypocty():
             xy_orientace[CB]['x'] = orientace_sour[0][1]
             xy_orientace[CB]['y'] = orientace_sour[0][2]
 
-
-
+            # ziskani mereni ze stanoviska
             query='select Orientace, Delka, Zenitka, Smer,kod from mereni where Stanovisko is " {} "'.format(str(stanovisko))
             body_sour=Databaze.sql_query(cesta,query)
+
 
             for i in range(0,len(body_sour)):
 
@@ -124,7 +130,7 @@ class vypocty():
                     xy_orientace[CB]['delka']=body_sour[i][1]*sin(body_sour[i][2])
                     xy_orientace[CB]['smer']=smer
 
-            # print(mereni_body)
+            # ziskani souradnic stanoviska
             query='select X,Y from gps_sour where CB is " {} "'.format(str(stanovisko))
             stan_sour=Databaze.sql_query(cesta,query)
 
@@ -132,10 +138,10 @@ class vypocty():
             stanovisko['X'] = stan_sour[0][0]
             stanovisko['Y'] = stan_sour[0][1]
 
-
+            # vypocet souradnic rajonu
             body = vypocty.rajon(xy_orientace, stanovisko, mereni_body)
 
-
+            # zapsani souradnic podrobnych bodu do databaze
             con=sql.connect(cesta)
             c=con.cursor()
             for i in range(0,len(body)):

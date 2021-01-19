@@ -16,6 +16,7 @@ class Rajon(QtWidgets.QDialog,Ui_Dialog):
 
         self.vypocet.clicked.connect(self.vypocet_rajonu)
         self.uloz_bod.clicked.connect(self.ulozeni_rajonu)
+        self.protokol.clicked.connect(self.protokol_rajon)
 
         self.show()
         self.exec()
@@ -60,8 +61,37 @@ class Rajon(QtWidgets.QDialog,Ui_Dialog):
 
     def ulozeni_rajonu(self):
         # ulozi souradnice spocitaneho rajonu
-        query='insert into gps_sour (CB, Y, X, kod) values (" {} ", {}, {}," {} ")'.format(self.bod, self.souradniceY, self.souradniceX, self.bod_data[0][6])
-        Databaze.pridani_bodu(self.cesta, query)
+        try:
+            query='insert into gps_sour (CB, Y, X, kod) values (" {} ", {}, {}," {} ")'.format(self.bod, self.souradniceY, self.souradniceX, self.bod_data[0][6])
+            Databaze.pridani_bodu(self.cesta, query)
+            print("Bod ulozen!!")
+        except IndexError:
+            print("Bod neni spocitan!!")
+
+    def protokol_rajon(self):
+        # ulozi protokol o vypoctu
+        cesta=QFileDialog.getSaveFileUrl()
+        cesta=cesta[0].toString()
+        cesta=cesta[8:]
+
+        try:
+            # vypsani protokolu
+            protokol = open(cesta,'a')
+            protokol.write("************************* \n")
+            protokol.write("Vypocet rajonu \n")
+            protokol.write("Stanovisko: {} \n".format(self.stan))
+            protokol.write("Orientace: {} \n".format(self.ori))
+            protokol.write("Vysledny bod: \n")
+            protokol.write("CB: {} \n".format(self.bod))
+            protokol.write("Souradnice X: {} \n".format(str(self.souradniceX)))
+            protokol.write("Souradnice Y: {} \n".format(str(self.souradniceY)))
+            protokol.write("************************* \n")
+            protokol.close()
+
+            print("Protokol ulozen!!")
+
+        except AttributeError:
+            print("Uloha neni spocitana!!")
 
 
 

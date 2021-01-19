@@ -59,7 +59,7 @@ class Rajon_hromadne(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Rajon hromadně"))
         self.label.setText(_translate("Dialog", "Stanovisko:"))
         self.Vypocet.setText(_translate("Dialog", "Výpočet a uložení"))
         self.protokol.setText(_translate("Dialog", "Protokol"))

@@ -24,16 +24,16 @@ class Protinani_delky(QtWidgets.QDialog,Ui_Dialog):
     def vypocet(self):
         # vypocte souradnice bodu urceneho protinanim
         # nacteni hodnot z okna
-        self.bod1=self.bod1.toPlainText()
-        self.bod2=self.bod1_2.toPlainText()
+        self.bod1_=self.bod1.toPlainText()
+        self.bod2_=self.bod1_2.toPlainText()
         self.del1=self.delka1.toPlainText()
         self.del2=self.delka2.toPlainText()
         self.cb=self.CB.toPlainText()
 
         # ziskani souradnic z databaze
         # cesta_databaze=path.ziskej_cestu()
-        bod1_sour=Databaze.sql_query(self.cesta,'select X, Y from gps_sour where CB = " {} "'.format(self.bod1))
-        bod2_sour=Databaze.sql_query(self.cesta,'select X, Y from gps_sour where CB = " {} "'.format(self.bod2))
+        bod1_sour=Databaze.sql_query(self.cesta,'select X, Y from gps_sour where CB = " {} "'.format(self.bod1_))
+        bod2_sour=Databaze.sql_query(self.cesta,'select X, Y from gps_sour where CB = " {} "'.format(self.bod2_))
 
         # vypocet protinani
 
@@ -52,6 +52,8 @@ class Protinani_delky(QtWidgets.QDialog,Ui_Dialog):
             self.Xova.setText(str(self.X))
             self.Yova.setText(str(self.Y))
 
+            print("Bod vypocten!!")
+
         except ValueError:
             print("Nedodrzena trojuhelnikova nerovnost")
 
@@ -61,7 +63,7 @@ class Protinani_delky(QtWidgets.QDialog,Ui_Dialog):
     def uloz_bod(self):
         # ulozeni vypocteneho bodu do seznamu souradnic
         try:
-            query='insert into gps_sour (CB, Y, X) values ({}, {}, {})'.format(self.cb, self.Y, self.X)
+            query='insert into gps_sour (CB, Y, X) values (" {} ", {}, {})'.format(self.cb, self.Y, self.X)
             Databaze.pridani_bodu(self.cesta, query)
             print("Bod ulozen")
         except sql.OperationalError:
@@ -73,22 +75,26 @@ class Protinani_delky(QtWidgets.QDialog,Ui_Dialog):
         cesta=cesta[0].toString()
         cesta=cesta[8:]
 
-        # vypsani protokolu
-        protokol = open(cesta,'a')
-        protokol.write("************************* \n")
-        protokol.write("Vypocet protinani z delek \n")
-        protokol.write("Bod 1: {} \n".format(self.bod1))
-        protokol.write("Bod 2: {} \n".format(self.bod2))
-        protokol.write("Delka 1: {} m \n".format(self.del1))
-        protokol.write("Delka 2: {} g \n".format(self.del2))
-        protokol.write("Vysledny bod: \n")
-        protokol.write("CB: {} \n".format(self.cb))
-        protokol.write("Souradnice X: {} \n".format(str(self.X)))
-        protokol.write("Souradnice Y: {} \n".format(str(self.Y)))
-        protokol.write("************************* \n")
-        protokol.close()
+        try:
+            # vypsani protokolu
+            protokol = open(cesta,'a')
+            protokol.write("************************* \n")
+            protokol.write("Vypocet protinani z delek \n")
+            protokol.write("Bod 1: {} \n".format(self.bod1_))
+            protokol.write("Bod 2: {} \n".format(self.bod2_))
+            protokol.write("Delka 1: {} m \n".format(self.del1))
+            protokol.write("Delka 2: {} g \n".format(self.del2))
+            protokol.write("Vysledny bod: \n")
+            protokol.write("CB: {} \n".format(self.cb))
+            protokol.write("Souradnice X: {} \n".format(str(self.X)))
+            protokol.write("Souradnice Y: {} \n".format(str(self.Y)))
+            protokol.write("************************* \n")
+            protokol.close()
 
-        print("Protokol ulozen!!")
+            print("Protokol ulozen!!")
+
+        except AttributeError:
+            print("Uloha neni spocitana!!")
 
 
 

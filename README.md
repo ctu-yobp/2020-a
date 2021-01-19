@@ -8,4 +8,4 @@ Skupina:
  * Jakub Šimek
  * Jan Kučera
 
-Spousteci skript: main_2.py
+Spousteci skript: run_program.py

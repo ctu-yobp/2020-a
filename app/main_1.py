@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("HoKuPa")
+        MainWindow.setObjectName("GeoApp")
         MainWindow.resize(979, 706)
         MainWindow.setWindowIcon(QtGui.QIcon('foto.jpg'))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -113,29 +113,29 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("HoKuPa", "GeoApp"))
-        self.menuSoubor.setTitle(_translate("HoKuPa", "Soubor"))
-        self.menuImport.setTitle(_translate("HoKuPa", "Nový"))
-        self.menuV_po_ty.setTitle(_translate("HoKuPa", "Výpočty"))
+        MainWindow.setWindowTitle(_translate("GeoApp", "GeoApp"))
+        self.menuSoubor.setTitle(_translate("GeoApp", "Soubor"))
+        self.menuImport.setTitle(_translate("GeoApp", "Nový"))
+        self.menuV_po_ty.setTitle(_translate("GeoApp", "Výpočty"))
 
-        self.menuData.setTitle(_translate("HoKuPa", "Data"))#
-        self.menuO.setTitle(_translate("HoKuPa","O aplikaci"))
+        self.menuData.setTitle(_translate("GeoApp", "Data"))#
+        self.menuO.setTitle(_translate("GeoApp","O aplikaci"))
 
-        self.importSDR.setText(_translate("HoKuPa", "Měření \'.sdr\'"))
-        self.importTXT.setText(_translate("HoKuPa", "Souřadnice \'.txt\'"))
-        self.rajon.setText(_translate("HoKuPa", "Rajón"))
-        self.smernikdelka.setText(_translate("HoKuPa", "Délka a směrník"))
-        self.souradnice.setText(_translate("HoKuPa","Seznam souřadnic"))#
-        self.mereni.setText(_translate("HoKuPa","Seznam měření"))
-        self.protinani_delky.setText(_translate("HoKuPa", "Protínání z délek"))
-        self.o_aplikaci.setText(_translate("HoKuPa","Informace o aplikaci"))
-        self.otevri.setText(_translate("HoKuPa","Otevři projekt"))
-        self.info.setText(_translate("HoKuPa",'Info o projektu'))
-        self.zavri.setText(_translate("HoKuPa", "Zavři projekt"))
-        self.grafika.setText(_translate("HoKuPa", "Grafika"))
-        self.exportSour.setText(_translate("HoKuPa", "Export seznamu souradnic"))
-        self.volneStanovisko.setText(_translate("HoKuPa", "Volné stanovisko"))
-        self.rajon_hromadne.setText(_translate("HoKuPa", "Rajón hromadně"))
+        self.importSDR.setText(_translate("GeoApp", "Měření \'.sdr\'"))
+        self.importTXT.setText(_translate("GeoApp", "Souřadnice \'.txt\'"))
+        self.rajon.setText(_translate("GeoApp", "Rajón"))
+        self.smernikdelka.setText(_translate("GeoApp", "Délka a směrník"))
+        self.souradnice.setText(_translate("GeoApp","Seznam souřadnic"))#
+        self.mereni.setText(_translate("GeoApp","Seznam měření"))
+        self.protinani_delky.setText(_translate("GeoApp", "Protínání z délek"))
+        self.o_aplikaci.setText(_translate("GeoApp","Informace o aplikaci"))
+        self.otevri.setText(_translate("GeoApp","Otevři projekt"))
+        self.info.setText(_translate("GeoApp",'Info o projektu'))
+        self.zavri.setText(_translate("GeoApp", "Zavři projekt"))
+        self.grafika.setText(_translate("GeoApp", "Grafika"))
+        self.exportSour.setText(_translate("GeoApp", "Export seznamu souradnic"))
+        self.volneStanovisko.setText(_translate("GeoApp", "Volné stanovisko"))
+        self.rajon_hromadne.setText(_translate("GeoApp", "Rajón hromadně"))
 
 
 if __name__ == "__main__":

@@ -29,19 +29,10 @@ class Ui_Seznam(object):
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        # self.pushButton = QtWidgets.QPushButton(self.layoutWidget)
-        # self.pushButton.setObjectName("pushButton")
-        # self.verticalLayout.addWidget(self.pushButton)
         spacerItem1 = QtWidgets.QSpacerItem(20, 17, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
-        # self.pushButton_3 = QtWidgets.QPushButton(self.layoutWidget)
-        # self.pushButton_3.setObjectName("pushButton_3")
-        # self.verticalLayout.addWidget(self.pushButton_3)
         spacerItem2 = QtWidgets.QSpacerItem(20, 17, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem2)
-        # self.pushButton_2 = QtWidgets.QPushButton(self.layoutWidget)
-        # self.pushButton_2.setObjectName("pushButton_2")
-        # self.verticalLayout.addWidget(self.pushButton_2)
         spacerItem3 = QtWidgets.QSpacerItem(20, 398, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem3)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -52,9 +43,6 @@ class Ui_Seznam(object):
     def retranslateUi(self, Seznam):
         _translate = QtCore.QCoreApplication.translate
         Seznam.setWindowTitle(_translate("Seznam", "Seznam souradnic"))
-        # self.pushButton.setText(_translate("Seznam", "Průměr"))
-        # self.pushButton_3.setText(_translate("Seznam", "Smaž"))
-        # self.pushButton_2.setText(_translate("Seznam", "Nový"))
 
 
 if __name__ == "__main__":
