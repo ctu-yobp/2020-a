@@ -13,21 +13,32 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("GeoApp")
-        MainWindow.resize(979, 706)
-        MainWindow.setWindowIcon(QtGui.QIcon('foto.jpg'))
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        MainWindow.setCentralWidget(self.centralwidget)
+        MainWindow.setObjectName("GeoApp") #nastaveni nazvu celeho okna
+        MainWindow.resize(979, 706) # nastaveni velikosti
+        MainWindow.setWindowIcon(QtGui.QIcon('foto.jpg')) # nahrani obrazku ikony
+
+        self.centralwidget = QtWidgets.QWidget(MainWindow) # nastaveni centralniho widgetu - sediva plocha na uvodni strance
+        self.centralwidget.setObjectName("centralwidget") # nazev central widgetu
+        MainWindow.setCentralWidget(self.centralwidget) # nastaveni centralniho widgetu do mainwindow
+
+        #================================================================#
+        #1
+        # vytvoreni pruhu s nabidkou - Soubor, Vypocty, Data, O aplikaci
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 979, 26))
         self.menubar.setObjectName("menubar")
-        self.menuSoubor = QtWidgets.QMenu(self.menubar)
-        self.menuSoubor.setObjectName("menuSoubor")
-        self.menuImport = QtWidgets.QMenu(self.menuSoubor)
+        MainWindow.setMenuBar(self.menubar)
+        #================================================================#
+        #2
+        # vytvoreni rolovacich menu do pruhu "menubar"
+        self.menuSoubor = QtWidgets.QMenu(self.menubar) # vytvoreni
+        self.menuSoubor.setObjectName("menuSoubor") # pojmenovani
+
+        self.menuImport = QtWidgets.QMenu(self.menuSoubor) # tady se pridava do menu soubor, protoze import je dalsi menu
         self.menuImport.setObjectName("menuImport")
+
         self.menuV_po_ty = QtWidgets.QMenu(self.menubar)
-        self.menuV_po_ty.setObjectName("menuV_po_ty")
+        self.menuV_po_ty.setObjectName("menuV_po_ty") # menuVypocty
 
         self.menuData = QtWidgets.QMenu(self.menubar)#
         self.menuData.setObjectName("Data")#
@@ -35,16 +46,18 @@ class Ui_MainWindow(object):
         self.menuO = QtWidgets.QMenu(self.menubar)
         self.menuO.setObjectName("o_aplikaci")
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.importSDR = QtWidgets.QAction(MainWindow)
-        self.importSDR.setObjectName("importSDR")
-        self.importTXT = QtWidgets.QAction(MainWindow)
-        self.importTXT.setObjectName("importTXT")
+        #================================================================#
+        #3
+
+        # self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        # self.statusbar.setObjectName("statusbar")
+        # MainWindow.setStatusBar(self.statusbar)
+
+        # vytvoreni tlacitek do rolovacich menu
+        # tyhle promenne "self.___" jsou pak v konstruktoru v "run_program.py" volany pres "triggered"
         self.rajon = QtWidgets.QAction(MainWindow)
         self.rajon.setObjectName("rajon")
+
         self.protinani_delky = QtWidgets.QAction(MainWindow)
         self.protinani_delky.setObjectName("protinani_delky")
 
@@ -81,16 +94,26 @@ class Ui_MainWindow(object):
         self.rajon_hromadne=QtWidgets.QAction(MainWindow)
         self.rajon_hromadne.setObjectName("rajon_hromadne")
 
-
+        #================================================================#
+        #4
+        # pridani rolovacich menu do panelu menubar z 2
         self.menuSoubor.addAction(self.menuImport.menuAction())
+        self.menubar.addAction(self.menuSoubor.menuAction())
+        self.menubar.addAction(self.menuV_po_ty.menuAction())
+        self.menubar.addAction(self.menuData.menuAction())#
+        self.menubar.addAction(self.menuO.menuAction())
+
+        #================================================================#
+        #5
+        # pridani tlacitek do rolovacich menu z 3
         self.menuData.addAction(self.souradnice)#
         self.menuData.addAction(self.mereni)
         self.menuData.addAction(self.grafika)
         self.menuData.addAction(self.info)
+
         self.menuSoubor.addAction(self.otevri)
         self.menuSoubor.addAction(self.exportSour)
         self.menuSoubor.addAction(self.zavri)
-
 
         self.menuO.addAction(self.o_aplikaci)
 
@@ -99,30 +122,28 @@ class Ui_MainWindow(object):
         self.menuV_po_ty.addAction(self.smernikdelka)
         self.menuV_po_ty.addAction(self.protinani_delky)
         self.menuV_po_ty.addAction(self.volneStanovisko)
-        self.menubar.addAction(self.menuSoubor.menuAction())
-        self.menubar.addAction(self.menuV_po_ty.menuAction())
-        self.menubar.addAction(self.menuData.menuAction())#
-        self.menubar.addAction(self.menuO.menuAction())
+
 
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        #cesta k souboru souradnic
+
 
 
     def retranslateUi(self, MainWindow):
+        # tady jsou pak nastavovany napisy na tlacitkach
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("GeoApp", "GeoApp"))
+
+        # pro menu
         self.menuSoubor.setTitle(_translate("GeoApp", "Soubor"))
         self.menuImport.setTitle(_translate("GeoApp", "Nový"))
         self.menuV_po_ty.setTitle(_translate("GeoApp", "Výpočty"))
-
         self.menuData.setTitle(_translate("GeoApp", "Data"))#
         self.menuO.setTitle(_translate("GeoApp","O aplikaci"))
 
-        self.importSDR.setText(_translate("GeoApp", "Měření \'.sdr\'"))
-        self.importTXT.setText(_translate("GeoApp", "Souřadnice \'.txt\'"))
+        # a pro tlacitka
         self.rajon.setText(_translate("GeoApp", "Rajón"))
         self.smernikdelka.setText(_translate("GeoApp", "Délka a směrník"))
         self.souradnice.setText(_translate("GeoApp","Seznam souřadnic"))#

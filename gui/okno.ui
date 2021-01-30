@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>979</width>
+    <height>706</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>979</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuSoubor">
+    <property name="title">
+     <string>Soubor</string>
+    </property>
+    <widget class="QMenu" name="menuImport">
+     <property name="title">
+      <string>Import</string>
+     </property>
+    </widget>
+    <addaction name="menuImport"/>
+   </widget>
+   <widget class="QMenu" name="menuV_po_ty">
+    <property name="title">
+     <string>Výpočty</string>
+    </property>
+    <addaction name="rajon"/>
+    <addaction name="smernikdelka"/>
+   </widget>
+   <addaction name="menuSoubor"/>
+   <addaction name="menuV_po_ty"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="importSDR">
+   <property name="text">
+    <string>Měření '.sdr'</string>
+   </property>
+  </action>
+  <action name="importTXT">
+   <property name="text">
+    <string>Souřadnice '.txt'</string>
+   </property>
+  </action>
+  <action name="rajon">
+   <property name="text">
+    <string>Rajón</string>
+   </property>
+  </action>
+  <action name="smernikdelka">
+   <property name="text">
+    <string>Délka a směrník</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

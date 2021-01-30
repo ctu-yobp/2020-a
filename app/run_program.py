@@ -41,6 +41,7 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
         self.volneStanovisko.triggered.connect(self.volneStan)
         self.rajon_hromadne.triggered.connect(self.rajon_hrom)
 
+
     def seznam_souradnic(self):
         # otevreni seznamu souradnic
 
@@ -181,7 +182,7 @@ class Uvod(QtWidgets.QMainWindow,Ui_MainWindow):
             print("Vypocet volneho stanoviska!!")
         except AttributeError:
             print("Neni aktivni projekt!!")
-            
+
     def rajon_hrom(self):
         # vypocet rajonu
         try:
